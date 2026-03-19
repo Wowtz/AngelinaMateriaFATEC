@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <h2>Cálculo da Área de um Triângulo</h2>
+    <label>Base: </label>
+    <input type="number" name="base" id="base">
+    <br>
+    <label>Altura: </label>
+    <input type="number" name="altura" id="altura">
+    <br>
+    <button onclick="calcularArea()">Calcular Área</button>
+    <h3 id="resultadoArea"></h3>
+
+    <h2>Idade Aproximada</h2>
+    <label>Qual a sua data de nascimento?</label>
+    <input type="date" name="nascimento" id="nascimento">
+    <br>
+    <button onclick="calcularIdade()">Calcular Idade</button>
+    <h3 id="resultadoIdade"></h3>
+
+    <h2>Par ou Ímpar</h2>
+    <button onclick="gerarNumero()">Gerar número aleatório</button>
+    <h3 id="resultado"></h3>
+
+    <h2>Média Ponderada</h2>
+    <label>Nota 1 (peso 30%): </label>
+    <input type="number" id="nota1">
+    <br>
+    <label>Nota 2 (peso 70%): </label>
+    <input type="number" id="nota2">
+    <br>
+    <button onclick="calcularMedia()">Calcular Média</button>
+    <br>
+    <label id="resultadoMedia"></label>
+
+    <h2>Consumo de Gasolina</h2>
+    <label>Distância (km): </label>
+    <input type="number" id="distancia">
+    <br>
+    <label>Volume (litros): </label>
+    <input type="number" id="volume">
+    <br>
+    <button onclick="calcularConsumo()">Calcular Consumo</button>
+    <h3 id="resultadoConsumo"></h3>
+
+    <h2>Salário RAB (62 horas trabalhadas)</h2>
+    <label>Valor por hora (R$): </label>
+    <input type="number" id="valorHora">
+    <br>
+    <label>Número de refeições: </label>
+    <input type="number" id="refeicoes">
+    <br>
+    <button onclick="calcularSalario()">Calcular Salário</button>
+    <h3 id="resultadoSalario"></h3>
+
+    <h2>Aumento de Salário</h2>
+    <label>Salário atual (R$): </label>
+    <input type="number" id="salario">
+    <br>
+    <label>Percentual de aumento (%): </label>
+    <input type="number" id="percentual">
+    <br>
+    <button onclick="calcularAumento()">Calcular Aumento</button>
+    <p id="resultadoAumento"></p>
+
+    <script>
+        function calcularArea() {
+            const base = document.getElementById("base").value;
+            const altura = document.getElementById("altura").value;
+            const area = (base * altura) / 2;
+            document.getElementById("resultadoArea").innerHTML = "A área do triângulo é: " + area;
+        }
+
+        function calcularIdade() {
+            const nascimento = document.getElementById("nascimento").value;
+            const hoje = new Date();
+            const nasc = new Date(nascimento + "T00:00:00");
+
+            let anos = hoje.getFullYear() - nasc.getFullYear();
+            if (hoje.getMonth() < nasc.getMonth() || (hoje.getMonth() === nasc.getMonth() && hoje.getDate() < nasc.getDate())) {
+                anos--;
+            }
+
+            let meses = (hoje.getFullYear() - nasc.getFullYear()) * 12 + (hoje.getMonth() - nasc.getMonth());
+            if (hoje.getDate() < nasc.getDate()) meses--;
+
+            const diffMs = hoje - nasc;
+            const dias = Math.floor(diffMs / (1000 * 60 * 60 * 24));
+            const semanas = Math.floor(dias / 7);
+            const minutos = Math.floor(diffMs / (1000 * 60));
+            const segundos = Math.floor(diffMs / 1000);
+
+            let em2050 = 2050 - nasc.getFullYear();
+            const nascMesAntes = nasc.getMonth() < hoje.getMonth() ||
+                (nasc.getMonth() === hoje.getMonth() && nasc.getDate() <= hoje.getDate());
+            if (!nascMesAntes) {
+                em2050--;
+            }
+
+            document.getElementById("resultadoIdade").innerHTML =
+                "Anos: " + anos + "<br>" +
+                "Meses vividos: " + meses + "<br>" +
+                "Semanas vividas: " + semanas + "<br>" +
+                "Dias vividos: " + dias + "<br>" +
+                "Minutos vividos: " + minutos + "<br>" +
+                "Segundos vividos: " + segundos + "<br>" +
+                "Em 2050 você terá: " + em2050 + " anos";
+        }
+
+        function gerarNumero() {
+            const numero = Math.floor(Math.random() * 100) + 1;
+            if (numero % 2 === 0) {
+                document.getElementById("resultado").innerHTML = numero + " é par";
+            } else {
+                document.getElementById("resultado").innerHTML = numero + " é ímpar";
+            }
+        }
+
+        function calcularMedia() {
+            const nota1 = parseFloat(document.getElementById("nota1").value);
+            const nota2 = parseFloat(document.getElementById("nota2").value);
+            const media = (nota1 * 0.30) + (nota2 * 0.70);
+            document.getElementById("resultadoMedia").innerHTML = "Média ponderada: " + media.toFixed(2);
+        }
+
+        function calcularConsumo() {
+            const distancia = parseFloat(document.getElementById("distancia").value);
+            const volume = parseFloat(document.getElementById("volume").value);
+            const consumo = distancia / volume;
+            document.getElementById("resultadoConsumo").innerHTML = "Consumo médio: " + consumo.toFixed(2) + " km/l";
+        }
+
+        function calcularSalario() {
+            const valorHora = parseFloat(document.getElementById("valorHora").value);
+            const refeicoes = parseInt(document.getElementById("refeicoes").value);
+            const horasTrabalhadas = 62;
+
+            let salarioBruto;
+            if (horasTrabalhadas <= 40) {
+                salarioBruto = horasTrabalhadas * valorHora;
+            } else {
+                const horasExtras = horasTrabalhadas - 40;
+                salarioBruto = (40 * valorHora) + (horasExtras * valorHora * 3);
+            }
+
+            const desconto = refeicoes * 1.50;
+            const salarioLiquido = salarioBruto - desconto;
+
+            document.getElementById("resultadoSalario").innerHTML =
+                "Salário bruto: R$ " + salarioBruto.toFixed(2) + "<br>" +
+                "Desconto refeição: R$ " + desconto.toFixed(2) + "<br>" +
+                "Salário líquido: R$ " + salarioLiquido.toFixed(2);
+        }
+
+        function calcularAumento() {
+            const salario = parseFloat(document.getElementById("salario").value);
+            const percentual = parseFloat(document.getElementById("percentual").value);
+
+            const aumento = salario * (percentual / 100);
+            const novoSalario = salario + aumento;
+
+            document.getElementById("resultadoAumento").innerHTML =
+                "Aumento: R$ " + aumento.toFixed(2) + "<br>" +
+                "Novo salário: R$ " + novoSalario.toFixed(2);
+        }
+    </script>
+</body>
+
+</html>

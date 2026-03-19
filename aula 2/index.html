@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>COBRA</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div class="wrapper">
+    <header>
+      <span class="label">COBRA</span>
+      <div class="scores">
+        <div class="score-box">
+          <span class="score-label">PONTOS</span>
+          <span id="score">000</span>
+        </div>
+        <div class="score-box">
+          <span class="score-label">RECORDE</span>
+          <span id="highscore">000</span>
+        </div>
+      </div>
+    </header>
+
+    <main>
+        <div class="arena">
+        <canvas id="canvas" width="400" height="400"></canvas>
+            <div id="overlay" class="overlay">
+                <div class="overlay-content">
+                <p class="overlay-title" id="overlay-title">COBRA</p>
+                <p class="overlay-sub" id="overlay-sub">pressione ENTER para jogar</p>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <div>
+            <span class="key">W</span>
+            <span class="key">A</span>
+            <span class="key">S</span>
+            <span class="key">D</span>
+            <span class="hint">para mover</span>
+        </div>
+        
+        <div>Direito autorais Fatec Votorantim</div>
+    </footer>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
