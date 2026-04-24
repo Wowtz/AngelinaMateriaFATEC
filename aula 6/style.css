@@ -1,0 +1,17 @@
+body {
+    display: flex;
+    flex-direction: column;
+    margin: 0px;
+    width: 100%;
+    min-height: 100vh;
+    color: #090404;
+    font-family: adobe-clean, "Source Sans Pro", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+}
+
+input {
+    font-family: adobe-clean, "Source Sans Pro", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+}
+
+section {
+    margin: 10px;
+}

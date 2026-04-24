@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Exercicios JS</title>
+</head>
+
+<body>
+
+    <h2>1) Média Aritmética</h2>
+    <label>Valor 1: </label>
+    <input type="text" id="valor1">
+    <br>
+    <label>Valor 2: </label>
+    <input type="text" id="valor2">
+    <br>
+    <button onclick="calcularMedia()">Calcular</button>
+    <br>
+    <label id="resultadoMedia"></label>
+
+    <script>
+        function calcularMedia() {
+            const v1 = parseFloat(document.getElementById("valor1").value);
+            const v2 = parseFloat(document.getElementById("valor2").value);
+            const media = (v1 + v2) / 2;
+            document.getElementById("resultadoMedia").innerHTML = "Média: " + media;
+        }
+    </script>
+
+    <h2>2) Potência com Math.pow()</h2>
+    <button onclick="calcularPotencia()">Calcular Potência</button>
+
+    <script>
+        function calcularPotencia() {
+            const x = parseFloat(window.prompt("Digite a base:"));
+            const y = parseFloat(window.prompt("Digite o expoente:"));
+            const resultado = Math.pow(x, y);
+            console.log("Resultado da potência: " + resultado);
+        }
+    </script>
+
+    <h2>3) Ano Bissexto</h2>
+    <label>Digite o ano: </label>
+    <input type="number" id="ano">
+    <br>
+    <button onclick="verificarBissexto()">Verificar</button>
+    <h3 id="resultadoBissexto"></h3>
+
+    <script>
+        function verificarBissexto() {
+            const ano = parseInt(document.getElementById("ano").value);
+            if ((ano % 4 === 0 && ano % 100 !== 0) || ano % 400 === 0) {
+                document.getElementById("resultadoBissexto").innerHTML = ano + " é um ano bissexto!";
+            } else {
+                document.getElementById("resultadoBissexto").innerHTML = ano + " não é um ano bissexto.";
+            }
+        }
+    </script>
+
+    <h2>4) Cálculo do Total a Pagar com Descontos</h2>
+    <label>Valor unitário (R$): </label>
+    <input type="number" id="valorUnitario">
+    <br>
+    <label>Quantidade: </label>
+    <input type="number" id="quantidade">
+    <br>
+    <label>Forma de pagamento: </label>
+    <br>
+    <input type="radio" name="pagamento" value="pix"> Pix
+    <input type="radio" name="pagamento" value="debito"> Débito
+    <input type="radio" name="pagamento" value="credito"> Crédito
+    <br><br>
+    <button onclick="calcularTotal()">Calcular Total</button>
+    <p id="resultadoTotal"></p>
+
+    <script>
+        function calcularTotal() {
+            const valor = parseFloat(document.getElementById("valorUnitario").value);
+            const qtd = parseInt(document.getElementById("quantidade").value);
+            const pagamento = document.querySelector('input[name="pagamento"]:checked');
+
+            if (pagamento === null) {
+                alert("Selecione uma forma de pagamento!");
+                return;
+            }
+
+            let total = valor * qtd;
+            let desconto = 0;
+
+            if (total >= 1000) {
+                desconto = total * 0.10;
+            }
+
+            if (pagamento.value === "pix") {
+                desconto = desconto + total * 0.10;
+            } else if (pagamento.value === "debito") {
+                desconto = desconto + total * 0.05;
+            }
+
+            const totalFinal = total - desconto;
+
+            document.getElementById("resultadoTotal").innerHTML =
+                "Total a pagar: R$ " + totalFinal.toFixed(2) + "<br>" +
+                "Desconto aplicado: R$ " + desconto.toFixed(2) + "<br>" +
+                "Forma de pagamento: " + pagamento.value;
+        }
+    </script>
+
+    <h2>5) Classificação de Nota</h2>
+    <label>Digite a nota (0 a 10): </label>
+    <input type="number" id="nota">
+    <br>
+    <button onclick="classificarNota()">Classificar</button>
+    <h3 id="resultadoNota"></h3>
+
+    <script>
+        function classificarNota() {
+            const nota = parseFloat(document.getElementById("nota").value);
+            if (nota < 4) {
+                document.getElementById("resultadoNota").innerHTML = "Reprovado";
+            } else if (nota >= 4 && nota <= 5.9) {
+                document.getElementById("resultadoNota").innerHTML = "Em recuperação";
+            } else if (nota >= 6) {
+                document.getElementById("resultadoNota").innerHTML = "Aprovado";
+            }
+        }
+    </script>
+
+</body>
+
+</html>

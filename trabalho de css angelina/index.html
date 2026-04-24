@@ -1,0 +1,710 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Tema 2 — CSS Seletores, Pseudo-classes & Combinadores</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;800;900&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+
+<!-- ═══════════════════════════════════════════════
+     NAVEGAÇÃO
+════════════════════════════════════════════════ -->
+<nav>
+  <div class="nav-logo">CSS · Tema 2</div>
+
+  <ul class="nav-links">
+    <li><a href="#seletores">Seletores</a></li>
+    <li><a href="#pseudo">Pseudo-classes</a></li>
+    <li><a href="#combinador">Combinador</a></li>
+    <li><a href="#backdrop">Backdrop</a></li>
+    <li><a href="#historia">História</a></li>
+    <li><a href="#sass">SCSS/Sass</a></li>
+    <li><a href="#darkmode">Dark Mode</a></li>
+  </ul>
+
+  <!-- Seletor de tema — clique para mudar cor -->
+  <div class="theme-bar">
+    <button class="theme-btn" data-theme="light"  title="Tema claro"></button>
+    <button class="theme-btn" data-theme="dark"   title="Modo escuro"></button>
+    <button class="theme-btn" data-theme="green"  title="Matrix/Terminal"></button>
+    <button class="theme-btn" data-theme="purple" title="Synthwave"></button>
+  </div>
+</nav>
+
+<!-- ═══════════════════════════════════════════════
+     HERO
+════════════════════════════════════════════════ -->
+<div class="hero">
+  <div class="hero-tag">FATEC São Paulo · Desenvolvimento de Software</div>
+  <h1>
+    CSS — <span>Hierarquia</span> de Seletores,
+    Pseudo-classes &amp; Combinadores
+  </h1>
+  <p>
+    Uma landing page interativa onde cada seção demonstra na prática
+    os conceitos do Tema 2. Mude o tema de cor acima e explore os exemplos.
+  </p>
+  <div class="hero-scroll">
+    <div class="scroll-dot"></div>
+    role para baixo
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════
+     CONTEÚDO PRINCIPAL
+════════════════════════════════════════════════ -->
+<main>
+
+  <!-- ── 1. O QUE SÃO SELETORES ───────────────── -->
+  <section id="seletores" class="reveal">
+    <div class="section-label">01 — Hierarquia de Seletores</div>
+    <h2>*, :root, html — Do mais geral ao mais específico</h2>
+    <p>
+      Seletores definem <em>quem</em> vai receber o estilo.
+      A hierarquia vai do mais genérico (<code>*</code>) ao mais específico (ID, inline).
+    </p>
+
+    <div class="card-grid">
+      <div class="card">
+        <div class="card-icon">🌐</div>
+        <h3>* — Seletor Universal</h3>
+        <p>
+          Aplica estilos em <strong>todos</strong> os elementos do documento.
+          Neste projeto, usamos <code>* { box-sizing: border-box; margin: 0; padding: 0; }</code>
+          para padronizar o modelo de caixa e zerar espaçamentos padrão do browser.
+        </p>
+      </div>
+
+      <div class="card">
+        <div class="card-icon">🎨</div>
+        <h3>:root — Variáveis CSS</h3>
+        <p>
+          Pseudo-classe que aponta para o elemento raiz do documento (<code>html</code>),
+          mas com especificidade maior. Usada para declarar <strong>variáveis CSS</strong>
+          (custom properties) acessíveis globalmente, como cores e tipografia.
+        </p>
+      </div>
+
+      <div class="card">
+        <div class="card-icon">📄</div>
+        <h3>html / body</h3>
+        <p>
+          Seletores de tipo que estilizam os elementos raiz.
+          Aqui definimos <code>scroll-behavior: smooth</code> no <code>html</code>
+          e a família de fontes e cor de fundo no <code>body</code>.
+        </p>
+      </div>
+    </div>
+
+    <div class="code-block" data-label="CSS">
+      <pre><span class="c">/* :root — variáveis disponíveis em TODO o documento */</span>
+<span class="k">:root</span> {
+  <span class="p">--accent</span>: <span class="v">#e05c2e</span>;
+  <span class="p">--bg</span>:     <span class="v">#f4f0e8</span>;
+  <span class="p">--text</span>:   <span class="v">#1c1c1e</span>;
+}
+
+<span class="c">/* * — aplica em TODOS os elementos */</span>
+<span class="k">*</span> {
+  <span class="p">box-sizing</span>: <span class="v">border-box</span>;
+  <span class="p">margin</span>: <span class="v">0</span>;
+  <span class="p">padding</span>: <span class="v">0</span>;
+}
+
+<span class="c">/* html e body — seletores de tipo */</span>
+<span class="k">html</span> { <span class="p">scroll-behavior</span>: <span class="v">smooth</span>; }
+<span class="k">body</span> {
+  <span class="p">background</span>: <span class="v">var(--bg)</span>;
+  <span class="p">color</span>:      <span class="v">var(--text)</span>;
+  <span class="p">font-family</span>: <span class="v">'DM Mono', monospace</span>;
+}</pre>
+    </div>
+
+    <p><strong>Por que usar?</strong> Definir variáveis no <code>:root</code> é a base do sistema de design: você muda uma variável e <em>toda</em> a página se atualiza. Isso alimenta o tema escuro desta página — troque o botão acima e veja!</p>
+  </section>
+
+  <!-- ── 2. PSEUDO-CLASSES ─────────────────────── -->
+  <section id="pseudo" class="reveal">
+    <div class="section-label">02 — Pseudo-classes</div>
+    <h2>:hover, :nth-child, :link, :root</h2>
+    <p>
+      Pseudo-classes selecionam elementos em um <strong>estado</strong> específico,
+      sem precisar adicionar classes no HTML.
+    </p>
+
+    <div class="card-grid">
+      <div class="card">
+        <div class="card-icon">🖱️</div>
+        <h3>:hover</h3>
+        <p>
+          Ativada quando o cursor está sobre o elemento. Usada aqui em
+          cards, botões do nav, e no demo abaixo. Permite alterar borda,
+          tamanho, cor e sombra de forma acessível.
+        </p>
+      </div>
+
+      <div class="card">
+        <div class="card-icon">🔢</div>
+        <h3>:nth-child(n)</h3>
+        <p>
+          Seleciona elementos pela posição entre seus irmãos.
+          Aceita fórmulas como <code>odd</code>, <code>even</code>, <code>3n</code>.
+          Usado nos pontinhos da timeline, nas bolinhas do demo abaixo e
+          nos dots do "dot-loader".
+        </p>
+      </div>
+
+      <div class="card">
+        <div class="card-icon">🔗</div>
+        <h3>:link / :visited</h3>
+        <p>
+          Controlam o estilo de links não visitados e já visitados.
+          Usados no nav para estilizar links antes e depois do clique,
+          garantindo feedback visual claro ao usuário.
+        </p>
+      </div>
+    </div>
+
+    <!-- Demo: :hover interativo -->
+    <div class="demo-box reveal">
+      <h4>🧪 Demo — :hover com combinador +</h4>
+      <p class="demo-label">
+        Passe o mouse nos blocos abaixo.
+        O <code>:hover</code> muda o card ativo e o combinador <code>+</code>
+        estiliza o bloco adjacente.
+      </p>
+      <div class="hover-demo">
+        <div class="hover-card">Alpha</div>
+        <div class="hover-card">Beta</div>
+        <div class="hover-card">Gamma</div>
+        <div class="hover-card">Delta</div>
+      </div>
+    </div>
+
+    <!-- Demo: :nth-child -->
+    <div class="demo-box reveal" style="margin-top:1.25rem">
+      <h4>🧪 Demo — :nth-child(odd)</h4>
+      <p class="demo-label">Os ímpares ficam coloridos com a cor de destaque via <code>:nth-child(odd)</code>.</p>
+      <div class="nth-demo">
+        <div class="nth-item">1</div>
+        <div class="nth-item">2</div>
+        <div class="nth-item">3</div>
+        <div class="nth-item">4</div>
+        <div class="nth-item">5</div>
+        <div class="nth-item">6</div>
+        <div class="nth-item">7</div>
+        <div class="nth-item">8</div>
+      </div>
+
+      <p class="demo-label" style="margin-top:1rem">E aqui <code>:nth-child(3n)</code> — múltiplos de 3:</p>
+      <div class="nth-demo multiples-3">
+        <div class="nth-item">1</div>
+        <div class="nth-item">2</div>
+        <div class="nth-item">3</div>
+        <div class="nth-item">4</div>
+        <div class="nth-item">5</div>
+        <div class="nth-item">6</div>
+        <div class="nth-item">7</div>
+        <div class="nth-item">8</div>
+        <div class="nth-item">9</div>
+      </div>
+    </div>
+
+    <div class="code-block" data-label="CSS">
+      <pre><span class="c">/* :hover — muda a aparência ao passar o mouse */</span>
+<span class="k">.card:hover</span> {
+  <span class="p">transform</span>: <span class="v">translateY(-5px) scale(1.01)</span>;
+  <span class="p">box-shadow</span>: <span class="v">0 16px 50px rgba(0,0,0,.18)</span>;
+}
+
+<span class="c">/* :nth-child(odd) — itens em posição ímpar */</span>
+<span class="k">.nth-item:nth-child(odd)</span> {
+  <span class="p">background</span>: <span class="v">color-mix(in srgb, var(--accent) 25%, transparent)</span>;
+  <span class="p">color</span>: <span class="v">var(--accent)</span>;
+}
+
+<span class="c">/* :nth-child(3n) — a cada 3 elementos */</span>
+<span class="k">.nth-item:nth-child(3n)</span> {
+  <span class="p">background</span>: <span class="v">color-mix(in srgb, var(--accent2) 30%, transparent)</span>;
+}
+
+<span class="c">/* :link e :visited */</span>
+<span class="k">a:link</span>    { <span class="p">color</span>: <span class="v">var(--text)</span>; }
+<span class="k">a:visited</span> { <span class="p">color</span>: <span class="v">var(--text-muted)</span>; }</pre>
+    </div>
+  </section>
+
+  <!-- ── 3. COMBINADOR + ───────────────────────── -->
+  <section id="combinador" class="reveal">
+    <div class="section-label">03 — Combinador Adjacente</div>
+    <h2>O combinador <code>+</code> (Adjacent Sibling)</h2>
+    <p>
+      Seleciona o <strong>primeiro elemento imediatamente após</strong> outro.
+      Ambos precisam ter o mesmo pai.
+    </p>
+
+    <div class="code-block" data-label="CSS">
+      <pre><span class="c">/* h2 + p — o parágrafo LOGO APÓS um h2 */</span>
+<span class="k">h2 + p</span> {
+  <span class="p">margin-top</span>: <span class="v">.75rem</span>;
+  <span class="p">color</span>: <span class="v">var(--text-muted)</span>;
+}
+
+<span class="c">/* .hover-card:hover + .hover-card — o card adjacente ao hover */</span>
+<span class="k">.hover-card:hover + .hover-card</span> {
+  <span class="p">transform</span>: <span class="v">scale(1.03)</span>;
+  <span class="p">border-color</span>: <span class="v">color-mix(in srgb, var(--accent2) 50%, transparent)</span>;
+}
+
+<span class="c">/* Underline animado: link + ::after com transition */</span>
+<span class="k">.nav-links a::after</span> {
+  <span class="p">content</span>: <span class="v">''</span>;
+  <span class="p">position</span>: <span class="v">absolute</span>;
+  <span class="p">bottom</span>: <span class="v">-3px</span>;
+  <span class="p">left</span>: <span class="v">0</span>; <span class="p">right</span>: <span class="v">100%</span>;
+  <span class="p">height</span>: <span class="v">2px</span>;
+  <span class="p">background</span>: <span class="v">var(--accent)</span>;
+  <span class="p">transition</span>: <span class="v">right .35s ease</span>;
+}
+<span class="k">.nav-links a:hover::after</span> { <span class="p">right</span>: <span class="v">0</span>; }</pre>
+    </div>
+
+    <p>
+      Nesta página o combinador <code>+</code> é usado em pelo menos 5 lugares:
+      <code>h2 + p</code>, <code>h3 + p</code>, <code>h4 + p</code>,
+      <code>.hover-card:hover + .hover-card</code>, e o
+      <code>.card::before</code> animado. Abra o DevTools e inspecione!
+    </p>
+  </section>
+
+  <!-- ── 4. BACKDROP-FILTER ────────────────────── -->
+  <section id="backdrop" class="reveal">
+    <div class="section-label">04 — backdrop-filter</div>
+    <h2>Efeito "vidro fosco" com backdrop-filter</h2>
+    <p>
+      Aplica filtros gráficos (blur, saturação, brilho) no conteúdo
+      <em>atrás</em> do elemento. Funciona como o efeito vidro do iOS/macOS.
+    </p>
+
+    <div class="demo-box">
+      <h4>🧪 Demo — blur(12px) + saturate(180%)</h4>
+      <div class="backdrop-demo">
+        <div style="position:absolute;top:1.5rem;left:2rem;font-size:2.5rem;filter:blur(0)">🎨🌈✨🎭</div>
+        <div style="position:absolute;top:2rem;right:2rem;width:60px;height:60px;
+                    border-radius:50%;background:rgba(255,255,255,.3)"></div>
+        <div class="backdrop-panel">
+          <strong>backdrop-filter: blur(12px) saturate(180%)</strong><br>
+          Este painel tem <code>background: rgba(255,255,255,.12)</code> e o blur
+          é aplicado no fundo atrás dele — não no conteúdo interno.
+        </div>
+      </div>
+    </div>
+
+    <div class="code-block" data-label="CSS">
+      <pre><span class="c">/* A navegação desta página usa backdrop-filter */</span>
+<span class="k">nav</span> {
+  <span class="p">backdrop-filter</span>: <span class="v">blur(18px) saturate(160%)</span>;
+  <span class="p">-webkit-backdrop-filter</span>: <span class="v">blur(18px) saturate(160%)</span>;
+  <span class="p">background</span>: <span class="v">rgba(0,0,0,.18)</span>;
+}
+
+<span class="c">/* O painel do demo acima */</span>
+<span class="k">.backdrop-panel</span> {
+  <span class="p">backdrop-filter</span>: <span class="v">blur(12px) saturate(180%)</span>;
+  <span class="p">background</span>: <span class="v">rgba(255,255,255,.12)</span>;
+  <span class="p">border</span>: <span class="v">1px solid rgba(255,255,255,.2)</span>;
+}</pre>
+    </div>
+
+    <p>
+      <strong>Quando usar?</strong> Navbars fixas, modais, sidebars, tooltips —
+      qualquer elemento flutuante onde você quer manter legibilidade sem
+      bloquear completamente o fundo. É onipresente no <strong>modo escuro</strong>
+      de apps modernos.
+    </p>
+  </section>
+
+  <!-- ── 5. HISTÓRIA / TIMELINE ────────────────── -->
+  <section id="historia" class="reveal">
+    <div class="section-label">05 — História</div>
+    <h2>Quando nasceram esses recursos?</h2>
+    <p>
+      CSS existe desde 1996, mas muitos seletores e propriedades vieram muito depois.
+    </p>
+
+    <div class="timeline">
+
+      <div class="timeline-item">
+        <div class="timeline-year">1996</div>
+        <h4>CSS1 — Os primeiros seletores</h4>
+        <p>
+          Seletores de tipo (<code>html</code>, <code>body</code>, <code>p</code>),
+          seletor de classe (<code>.classe</code>) e ID (<code>#id</code>).
+          Também chegaram <code>:link</code> e <code>:visited</code>.
+          O combinador adjacente <code>+</code> já estava na especificação inicial.
+        </p>
+      </div>
+
+      <div class="timeline-item">
+        <div class="timeline-year">1998</div>
+        <h4>CSS2 — :hover, :focus, :active, seletor universal</h4>
+        <p>
+          Chegou o <code>*</code> (seletor universal), o <code>:hover</code>,
+          <code>:focus</code> e <code>:active</code>. O CSS2 formalizou a
+          <strong>especificidade</strong> e a cascata como as conhecemos hoje.
+        </p>
+      </div>
+
+      <div class="timeline-item">
+        <div class="timeline-year">2011</div>
+        <h4>CSS3 — :nth-child, :root, variáveis (rascunho)</h4>
+        <p>
+          O CSS Selectors Level 3 trouxe <code>:nth-child(n)</code>,
+          <code>:nth-of-type</code>, <code>:root</code>, <code>:not()</code>,
+          e dezenas de outras pseudo-classes.
+          O rascunho de Custom Properties (variáveis) data de 2012.
+        </p>
+      </div>
+
+      <div class="timeline-item">
+        <div class="timeline-year">2015–2017</div>
+        <h4>CSS Custom Properties — suporte amplo em browsers</h4>
+        <p>
+          As variáveis CSS (<code>--minha-var</code> no <code>:root</code>) chegaram
+          ao Chrome 49 (2016), Firefox 31 (2014) e Safari 9.1 (2016).
+          Hoje têm suporte universal. Isso revolucionou temas e design systems.
+        </p>
+      </div>
+
+      <div class="timeline-item">
+        <div class="timeline-year">2019–hoje</div>
+        <h4>backdrop-filter — suporte estável</h4>
+        <p>
+          Especificado no CSS Filter Effects Level 2. Chegou ao Safari em 2015,
+          mas ficou por anos atrás de flag no Chrome. Suporte estável no Chrome 76
+          (2019) e Firefox 103 (2022). É uma das propriedades que mais cresceu
+          em uso nos últimos anos.
+        </p>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ── 6. SCSS vs SASS ───────────────────────── -->
+  <section id="sass" class="reveal">
+    <div class="section-label">06 — SCSS vs Sass</div>
+    <h2>São diferentes — mas da mesma família</h2>
+    <p>
+      Sass (Syntactically Awesome Style Sheets) é o pré-processador.
+      SCSS é a sintaxe mais nova e popular dele. São <em>dialetos</em> do mesmo compilador.
+    </p>
+
+    <div class="compare-grid">
+      <div class="compare-col">
+        <div class="compare-header scss">
+          <span style="font-size:1.2rem">💅</span> SCSS (recomendado)
+        </div>
+        <div class="compare-body">
+          <ul>
+            <li>Usa <code>{ }</code> e <code>;</code> — idêntico ao CSS normal</li>
+            <li>Todo CSS válido é SCSS válido</li>
+            <li>Extensão: <code>.scss</code></li>
+            <li>Suporta nesting, variáveis <code>$var</code>, mixins, funções</li>
+            <li>Mais fácil de adotar em projetos existentes</li>
+            <li>Usado em Angular, Bootstrap, Material UI</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="compare-col">
+        <div class="compare-header sass">
+          <span style="font-size:1.2rem">✏️</span> Sass (sintaxe indentada)
+        </div>
+        <div class="compare-body">
+          <ul>
+            <li>Usa indentação, sem <code>{ }</code> ou <code>;</code></li>
+            <li>Sintaxe mais compacta e minimalista</li>
+            <li>Extensão: <code>.sass</code></li>
+            <li>Mesmos recursos do SCSS</li>
+            <li>Mais difícil de migrar a partir de CSS puro</li>
+            <li>Menos popular hoje em dia</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <div class="code-block" data-label="Comparativo">
+      <pre><span class="c">/* ── SCSS (.scss) ───────────────────────────── */</span>
+<span class="k">$accent: #e05c2e</span>;
+
+<span class="k">.card</span> {
+  <span class="p">background</span>: <span class="v">white</span>;
+
+  <span class="k">&amp;:hover</span> {
+    <span class="p">transform</span>: <span class="v">translateY(-5px)</span>;
+    <span class="p">color</span>: <span class="v">$accent</span>;
+  }
+
+  <span class="k">h3 + p</span> {
+    <span class="p">color</span>: <span class="v">gray</span>;
+  }
+}
+
+<span class="c">/* ── Sass (.sass) — mesma coisa, outra sintaxe ── */</span>
+<span class="k">$accent</span>: <span class="v">#e05c2e</span>
+
+<span class="k">.card</span>
+  <span class="p">background</span>: <span class="v">white</span>
+
+  <span class="k">&amp;:hover</span>
+    <span class="p">transform</span>: <span class="v">translateY(-5px)</span>
+    <span class="p">color</span>: <span class="v">$accent</span>
+
+  <span class="k">h3 + p</span>
+    <span class="p">color</span>: <span class="v">gray</span></pre>
+    </div>
+
+    <p>
+      <strong>Por que usar?</strong> Ambos compilam para CSS normal — o browser nunca
+      vê o SCSS. O ganho é a produtividade: nesting, mixins, funções e
+      variáveis (<code>$var</code>) que existiam antes das variáveis nativas do CSS.
+      Hoje as CSS Custom Properties cobrem muito do que as variáveis Sass faziam,
+      mas o SCSS ainda é rei para nesting e lógica reutilizável.
+    </p>
+  </section>
+
+  <!-- ── 7. ONDE É USADO ───────────────────────── -->
+  <section id="onde" class="reveal">
+    <div class="section-label">07 — Onde esses conceitos aparecem</div>
+    <h2>No mundo real, você encontra em todo lugar</h2>
+    <p>
+      Pseudo-classes, combinadores e variáveis CSS são base de praticamente
+      qualquer interface moderna.
+    </p>
+
+    <div class="usage-grid">
+      <div class="usage-item">
+        <div class="usage-emoji">🌙</div>
+        <h4>Dark Mode</h4>
+        <p>
+          Mudar <code>:root</code> ou usar
+          <code>@media (prefers-color-scheme: dark)</code>
+          para trocar variáveis instantaneamente.
+        </p>
+      </div>
+
+      <div class="usage-item">
+        <div class="usage-emoji">🧭</div>
+        <h4>Navbars & Headers</h4>
+        <p>
+          <code>backdrop-filter</code>, <code>:hover</code> com underline
+          animado via combinador <code>+</code>.
+        </p>
+      </div>
+
+      <div class="usage-item">
+        <div class="usage-emoji">📋</div>
+        <h4>Tabelas & Listas</h4>
+        <p>
+          Zebra striping com <code>tr:nth-child(even)</code>.
+          Destaque de linhas com <code>:hover</code>.
+        </p>
+      </div>
+
+      <div class="usage-item">
+        <div class="usage-emoji">🃏</div>
+        <h4>Cards & Grids</h4>
+        <p>
+          <code>:hover</code> com <code>transform</code> e <code>box-shadow</code>
+          para elevação. <code>:nth-child</code> para espaçamento alternado.
+        </p>
+      </div>
+
+      <div class="usage-item">
+        <div class="usage-emoji">📝</div>
+        <h4>Formulários</h4>
+        <p>
+          <code>:focus</code>, <code>:valid</code>, <code>:invalid</code>
+          e <code>:placeholder-shown</code> para feedback ao usuário.
+        </p>
+      </div>
+
+      <div class="usage-item">
+        <div class="usage-emoji">🖼️</div>
+        <h4>Modais & Sidebars</h4>
+        <p>
+          <code>backdrop-filter</code> no overlay, <code>:root</code> para
+          desabilitar scroll com variável de estado.
+        </p>
+      </div>
+
+      <div class="usage-item">
+        <div class="usage-emoji">🎨</div>
+        <h4>Design Systems</h4>
+        <p>
+          Bootstrap, Tailwind, Material UI — todos usam <code>:root</code>
+          e <code>:hover</code> como fundação do sistema de tokens.
+        </p>
+      </div>
+
+      <div class="usage-item">
+        <div class="usage-emoji">♿</div>
+        <h4>Acessibilidade</h4>
+        <p>
+          <code>:focus-visible</code> mostra foco apenas para navegação
+          por teclado sem afetar usuários de mouse.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── 8. DARK MODE SHOWCASE ─────────────────── -->
+  <section id="darkmode" class="reveal">
+    <div class="section-label">08 — Dark Mode na prática</div>
+    <h2>Como o tema escuro funciona nesta página</h2>
+    <p>
+      O segredo está nos <strong>CSS Custom Properties no <code>:root</code></strong>.
+      Trocar o tema é só adicionar/remover uma classe no <code>html</code>
+      e sobrescrever as variáveis.
+    </p>
+
+    <div class="darkmode-showcase">
+      <div class="dm-header">
+        <div class="dm-dots">
+          <div class="dm-dot"></div>
+          <div class="dm-dot"></div>
+          <div class="dm-dot"></div>
+        </div>
+        styles.css — comparativo de temas
+      </div>
+      <div class="dm-body">
+        <div class="dm-panel light-panel">
+          <h5>☀️ Tema Claro</h5>
+          <p>Background <code>#f4f0e8</code>, texto escuro, accent laranja.</p>
+          <div class="dm-badge light-badge">:root (padrão)</div>
+        </div>
+        <div class="dm-panel dark-panel">
+          <h5>🌙 Tema Escuro</h5>
+          <p>Background <code>#0d0d14</code>, texto claro, accent laranja intenso.</p>
+          <div class="dm-badge dark-badge">:root.dark</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="code-block" data-label="CSS">
+      <pre><span class="c">/* Tema padrão (claro) */</span>
+<span class="k">:root</span> {
+  <span class="p">--bg</span>:     <span class="v">#f4f0e8</span>;
+  <span class="p">--text</span>:   <span class="v">#1c1c1e</span>;
+  <span class="p">--accent</span>: <span class="v">#e05c2e</span>;
+}
+
+<span class="c">/* Dark mode — sobrescreve as mesmas variáveis */</span>
+<span class="k">:root.dark</span> {
+  <span class="p">--bg</span>:     <span class="v">#0d0d14</span>;
+  <span class="p">--text</span>:   <span class="v">#e8e8f0</span>;
+  <span class="p">--accent</span>: <span class="v">#ff6b35</span>;
+}
+
+<span class="c">/* Também pode usar media query */</span>
+<span class="k">@media (prefers-color-scheme: dark)</span> {
+  <span class="k">:root</span> {
+    <span class="p">--bg</span>:   <span class="v">#0d0d14</span>;
+    <span class="p">--text</span>: <span class="v">#e8e8f0</span>;
+  }
+}</pre>
+    </div>
+
+    <div class="code-block" data-label="JavaScript">
+      <pre><span class="c">// Trocar tema apenas manipulando classe no html</span>
+<span class="k">document</span>.<span class="p">querySelectorAll</span>(<span class="s">'.theme-btn'</span>).<span class="p">forEach</span>(btn => {
+  btn.<span class="p">addEventListener</span>(<span class="s">'click'</span>, () => {
+    <span class="k">const</span> theme = btn.<span class="p">dataset</span>.theme;
+
+    <span class="c">// Remove todos os temas anteriores</span>
+    <span class="k">document</span>.documentElement.classList
+      .<span class="p">remove</span>(<span class="s">'dark'</span>, <span class="s">'green'</span>, <span class="s">'purple'</span>);
+
+    <span class="c">// Adiciona o novo (exceto 'light' que é o padrão)</span>
+    <span class="k">if</span> (theme !== <span class="s">'light'</span>) {
+      <span class="k">document</span>.documentElement.classList.<span class="p">add</span>(theme);
+    }
+  });
+});</pre>
+    </div>
+
+    <p>
+      <strong>Por que isso é poderoso?</strong> O <code>body</code>, <code>nav</code>,
+      <code>cards</code> e todos os elementos usam <code>var(--bg)</code>,
+      <code>var(--text)</code> etc. Quando você troca a classe no <code>:root</code>,
+      <em>toda</em> a página muda com uma única operação, sem tocar no HTML nem
+      precisar de JavaScript complexo.
+    </p>
+  </section>
+
+</main>
+
+<!-- ── FOOTER ────────────────────────────────── -->
+<footer>
+  <p>
+    Tema 2 — CSS Seletores · Pseudo-classes · Combinador <span>+</span> · Backdrop-filter<br>
+    FATEC São Paulo · Desenvolvimento de Software · <span>2025</span>
+  </p>
+</footer>
+
+<!-- ═══════════════════════════════════════════════
+     JAVASCRIPT
+════════════════════════════════════════════════ -->
+<script>
+  // ── Troca de tema ────────────────────────────
+  document.querySelectorAll('.theme-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const theme = btn.dataset.theme;
+      document.documentElement.classList.remove('dark', 'green', 'purple');
+      if (theme !== 'light') {
+        document.documentElement.classList.add(theme);
+      }
+    });
+  });
+
+  // ── Scroll reveal ─────────────────────────────
+  const revealEls = document.querySelectorAll('.reveal');
+  const observer = new IntersectionObserver(entries => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('visible');
+        observer.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.12 });
+
+  revealEls.forEach(el => observer.observe(el));
+
+  // ── Nav link scroll ativo ─────────────────────
+  const sections = document.querySelectorAll('section[id]');
+  const navLinks = document.querySelectorAll('.nav-links a');
+
+  const sectionObserver = new IntersectionObserver(entries => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        navLinks.forEach(a => {
+          a.style.color = '';
+        });
+        const active = document.querySelector(
+          `.nav-links a[href="#${entry.target.id}"]`
+        );
+        if (active) active.style.color = 'var(--accent)';
+      }
+    });
+  }, { threshold: 0.4 });
+
+  sections.forEach(s => sectionObserver.observe(s));
+</script>
+
+</body>
+</html>
